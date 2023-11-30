@@ -1,0 +1,24 @@
+
+server:
+  port: 8081
+
+spring:
+  # DATABASE
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/dummy?currentSchema=public
+    username: postgres
+    password: root123
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+jwt:
+  secret:
+    key: 48a868a4042f634ac04a117f00a87202131dd7c46c4b32c4acb3edc5e15f4511
+  expiration:
+    ms: 3600000
