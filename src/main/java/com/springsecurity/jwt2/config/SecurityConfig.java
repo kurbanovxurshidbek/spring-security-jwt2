@@ -1,6 +1,7 @@
 package com.springsecurity.jwt2.config;
 
 import com.springsecurity.jwt2.model.security.UserPrinciple;
+import com.springsecurity.jwt2.security.IpFilter;
 import com.springsecurity.jwt2.security.JwtFilter;
 import com.springsecurity.jwt2.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final IpFilter ipFilter;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
@@ -53,6 +56,9 @@ public class SecurityConfig {
         // Add JWT token filter
         http.authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // Add IP filter
+        http.addFilterBefore(ipFilter, BasicAuthenticationFilter.class);
 
         return http.build();
     }
